@@ -1,11 +1,6 @@
 importError = False
 
 try:
-	import time
-except Exception: 
-	print "import time is not available"	
-	
-try:
 	import RPi.GPIO as GPIO
 except Exception: 
 	print "import RPi.GPIO is not available"	
@@ -15,19 +10,20 @@ if importError:
 	print "Error!"
 	sys.exit()
 		
-		
 class Board(object):
 	# Define GPIO pins to use
 	# that are connected to 12 LEDs
 	CHASER_LIGHTS = [7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22]
 	
 	# 3 onboard LEDs
+	#  2 bufferd 23, 26
+	#  1 unbufferd 26
 	ON_BOARD = [23, 24, 26]
 	
 	# all together
 	ALL_LIGHTS = CHASER_LIGHTS + ON_BOARD
 
-	#inputs
+	# 2 Buttons
 	BUTTONS = [3, 5]
 	
 	def __init__(self, GPIO, leds=[], buttons=[], verbose=False):
