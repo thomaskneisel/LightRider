@@ -1,23 +1,16 @@
 from Board import *
-lr = Board(GPIO, Board.ALL_LIGHTS, Board.BUTTONS, True)
-print lr.status()
+from LightRider import *
+from Sequence import *
 
-def callMeBack():
-	lr.status()
+board = Board(GPIO, Board.ALL_LIGHTS, Board.BUTTONS, True)
+print board.status()
 
-lr.addEventCallback(3, callMeBack)
+lr = LightRider(board, True)
 
-for led in lr.CHASER_LIGHTS:
-	lr.on(led)
+seq = Sequence(200, [[1,0,0,0,1,1,1,0,0,1,1,0],[0,1,1,1,0,0,0,1,1,0,0,1]])
+lr.addSequence(seq)
 
-print lr.status()
+lr.run(seq)
 
-for led in lr.CHASER_LIGHTS:
-        lr.off(led)
-
-print lr.status()
-
-
-
-
+print "dne"
 
