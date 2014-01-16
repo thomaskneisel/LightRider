@@ -1,3 +1,5 @@
+import time
+
 class LightRider(object):
 
 	def __init__(self, board, verbose=False):
@@ -13,17 +15,22 @@ class LightRider(object):
 
 	def run(self, sequence):
 		data = sequence.getSequence()
+		self._speed = sequence.speed
 		for row in data:
 	 		map(self._led, self._board.CHASER_LIGHTS, row)
 			
 	def _led(self, pin, value):
+		if pin == None:
+                        return False
 		if self.__verbose:	
-			print "Pin {} to {}".format(pin, value)
+			print "Pin {} to {}".format(pin, value),
 		if value == 1:
+			self._board.on(pin)
 			print "self._board.on({})".format(pin)
-#			self._board.on(pin)
 		else:
-#			self._board.off(pin)
+			self._board.off(pin)
 			print "self._board.off({})".format(pin)
+
+		time.sleep(0.15)
 
 
