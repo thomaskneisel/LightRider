@@ -8,6 +8,7 @@ Inspiration
  * Buttons Tutorials : Pull-Up/Down placement - http://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/buttons_and_switches/
  * Internal Pull-Downs (1.8KOhm) - https://projects.drogon.net/raspberry-pi/gpio-examples/tux-crossing/3-more-leds-and-a-button/
   * !!Darlington Array - http://www.petervis.com/Raspberry_PI/Raspberry_Pi_GPIO_Header/Raspberry_Pi_GPIO_Header_Pin_Interfacing.html
+  * OctoPrint Events: https://github.com/foosel/OctoPrint/wiki/Available-Events
   
 <h4>Hilfe:</h4>
  * www.google.de :P
