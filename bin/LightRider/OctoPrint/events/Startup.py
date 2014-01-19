@@ -1,5 +1,8 @@
-from LightRider.Sequence import Sequence
 from Event import Event
 
-class Startup(Event):	
-	pass
+class Startup(Event):
+	def _initInstance(self):
+		self.leds = [[23, 1]]
+
+	
+	

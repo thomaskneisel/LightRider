@@ -37,21 +37,9 @@ def main():
 	parser.add_argument("--payload", action="store", type=str, dest="payload", 
 		help="the event payload read https://github.com/foosel/OctoPrint/wiki/Available-Events\#events")
 
-	# may be in the future
-#        parser.add_argument("-c", "--config", action="store", dest="config",
-#                help="Specify the config file to use. OctoPrint needs to have write access for the settings dialog to work. Defaults to ~/.octoprint/config.yaml")
-
-	# debug issues
-#	parser.add_argument("-con", "--connected", action="store_true", dest="connected",
-#                help="Printer connected action")
-
         args = parser.parse_args()
 
-	print
-	print args
-	print
-
-	octoprint = OctoPrint()
+	octoprint = OctoPrint(args.debug)
 	octoprint.event(args)
 
 

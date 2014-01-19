@@ -16,7 +16,7 @@ import events
 
 class OctoPrint(object):
 	def __init__(self, debug=True):
-		self._debug = debug
+		self._debug = debug		
 		self._lightRider = LightRider(self._getBoard(), self._debug)
 
 	def _getBoard(self):
@@ -27,13 +27,19 @@ class OctoPrint(object):
 		eventSequence =  self.eventFactory(event)
 
 		if self._debug:
-			print event
-			print eventSequence
-	
+			print "\n[{}]Event: \n {} \n".format(__name__, event)
+			print "\n[{}]EventSequence: \n {} \n {} \n".format(__name__, eventSequence, eventSequence.sequence)
+
+		# sequence handling
 		if eventSequence.sequence:
+	                if self._debug:
+                		print "\n[{}]EventSequence: \n {} \n {} \n".format(__name__, eventSequence, eventSequence.sequence)
 			self._lightRider.run(eventSequence.sequence)
 
+		# single led handling
 		if eventSequence.leds:
+	                if self._debug:
+	                        print "\n[{}]Leds: \n {} \n".format(__name__, eventSequence.leds)
 			for led in eventSequence.leds:
 				pin = led[0]
 				value = led[1]
@@ -43,7 +49,9 @@ class OctoPrint(object):
 		try:
 			classAttr = getattr(events, event.name)
 			eventObject = apply(classAttr, args)
-		except Exception:
+		except Exception, e:
+			if self._debug:
+				print e
 			eventObject = events.Event()
 
                 return eventObject

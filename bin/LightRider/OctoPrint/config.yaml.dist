@@ -1,0 +1,40 @@
+events:
+  systemCommandTrigger:
+    enabled: true
+    subscriptions:
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e Connected >> /home/pi/LightRider/test.log
+      event: Connected
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e Disconnected >> /home/pi/LightRider/test.log
+      event: Disconnected
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e Startup >> /home/pi/LightRider/test.log
+      event: Startup
+
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e Upload >> /home/pi/LightRider/test.log
+      event: Upload
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e FileSelected >> /home/pi/LightRider/test.log
+      event: FileSelected
+
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e PrintStarted >> /home/pi/LightRider/test.log
+      event: PrintStarted
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e PrintFailed >> /home/pi/LightRider/test.log
+      event: PrintFailed
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e PrintDone >> /home/pi/LightRider/test.log
+      event: PrintDone
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e PrintCancelled >> /home/pi/LightRider/test.log
+      event: PrintCancelled
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e Paused >> /home/pi/LightRider/test.log
+      event: Paused
+
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e ZChange >> /home/pi/LightRider/test.log
+      event: ZChange
+
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e CaptureStart >> /home/pi/LightRider/test.log
+      event: CaptureStart
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e CaptureDone >> /home/pi/LightRider/test.log
+      event: CaptureDone
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e MovieDone >> /home/pi/LightRider/test.log
+      event: MovieDone
+
+    - command: sudo /home/pi/LightRider/bin/LightRider/octoprint -e Error >> /home/pi/LightRider/test.log
+      event: Error
+

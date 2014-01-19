@@ -26,11 +26,15 @@ class Board(object):
 	# 2 Buttons
 	BUTTONS = [3, 5]
 	
-	def __init__(self, GPIO, leds=[], buttons=[], verbose=False):
+	def __init__(self, GPIO, leds=[], buttons=[], verbose=False, reset=False):
 		self._GPIO = GPIO
 		self._leds = leds
 		self._buttons = buttons
+		self._reset = reset
 		self.__verbose = verbose
+
+		# disable warning if we don't reset at the end
+		self._GPIO.setwarnings(self._reset)
 
 		# Use physical pin numbers references
 		self._GPIO.setmode(self._GPIO.BOARD)
@@ -39,7 +43,8 @@ class Board(object):
 		self._initButtons()
 		
 	def __del__(self):
-		self._GPIO.cleanup()
+		if (self._reset):
+			self._GPIO.cleanup()
 		
 	def _setupPins(self, pins, mode):
 		for pin in pins:
