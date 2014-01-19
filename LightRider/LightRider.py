@@ -5,6 +5,7 @@ class LightRider(object):
 	def __init__(self, board, verbose=False):
 		self._board = board
 		self._sequences = []
+		self._speed = 0.25
 		self.__verbose = verbose
 
 	def addSequence(self, sequence):
@@ -17,9 +18,11 @@ class LightRider(object):
 		data = sequence.getSequence()
 		self._speed = sequence.speed
 		for row in data:
-	 		map(self._led, self._board.CHASER_LIGHTS, row)
+	 		map(self.led, self._board.CHASER_LIGHTS, row)
 			
-	def _led(self, pin, value):
+	def led(self, pin, value, speed=0):
+		if speed <= 0:
+			speed = self._speed
 		if pin == None:
                         return False
 		if self.__verbose:	
@@ -31,6 +34,6 @@ class LightRider(object):
 			self._board.off(pin)
 			print "self._board.off({})".format(pin)
 
-		time.sleep(0.15)
+		time.sleep(speed)
 
 
