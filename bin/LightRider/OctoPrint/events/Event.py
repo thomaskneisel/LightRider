@@ -1,4 +1,4 @@
-from LightRider.Sequence import Sequence
+from LightRider.Sequences import Sequence
 
 class Event(object):
 	def __init__(self):
