@@ -1,16 +1,33 @@
 import time
 
 class LightRider(object):
+	BUTTON_ONE = 3
+	BUTTON_TWO = 5
 
 	def __init__(self, board, verbose=False):
 		self._board = board
 		self._speed = 0.0001
 		self.__verbose = verbose
+		self._sequence = None
 
 	def run(self, sequence):
-		for row in sequence.getRows():
-			map(self.led, self._board.CHASER_LIGHTS, row.values)
-			time.sleep(row.speed)
+		self._sequence = sequence
+		#activate Button callback         
+                self._board.addEventCallback(self.BUTTON_ONE, self._breakSequence)
+		n = 0
+		while n < sequence.repeat or True == sequence.repeat:
+			for row in sequence.getRows():
+				self._row = row
+				map(self.led, self._board.CHASER_LIGHTS, row.values)
+				time.sleep(row.speed)
+			n +=1
+	
+	def _breakSequence(self, pin):
+		if None == self._sequence or 0 == self._sequence.repeat:
+			return None	
+		self._sequence.repeat = 0
+		self._sequence = None
+		self._board.removeEventDetect(pin)
 		
 	def led(self, pin, value=1, speed=0.0001):
 		if speed <= 0:

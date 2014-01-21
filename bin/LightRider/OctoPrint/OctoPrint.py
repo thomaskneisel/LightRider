@@ -16,11 +16,12 @@ import events
 
 class OctoPrint(object):
 	def __init__(self, debug=True):
-		self._debug = debug		
+		self._debug = debug
+		self._resetGPIO = False
 		self._lightRider = LightRider(self._getBoard(), self._debug)
 
 	def _getBoard(self):
-		return Board(GPIO, Board.ALL_LIGHTS, Board.BUTTONS, self._debug)
+		return Board(GPIO, Board.ALL_LIGHTS, Board.BUTTONS, self._debug, self._resetGPIO)
 
 	def event(self, event):
 		event.name = event.event[0]
@@ -43,7 +44,7 @@ class OctoPrint(object):
 			for led in eventSequence.leds:
 				pin = led[0]
 				value = led[1]
-				self._lightRider.led(pin, value)		
+				self._lightRider.led(pin, value)
 			
 	def eventFactory(self, event, args=[]):
 		try:

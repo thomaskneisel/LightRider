@@ -1,17 +1,66 @@
-from LightRider.Board import *
-from LightRider.LightRider import *
-from LightRider.Sequence import *
-import sys
+#!/usr/bin/env python
+#
+# LightRider command line runner
+# 
 
-board = Board(GPIO, Board.ALL_LIGHTS, Board.BUTTONS, True)
-print board.status()
+from LightRider import Board, LightRider, Sequences
+from LightRider.Sequences.Sequence import factory
+import sys, argparse
+import RPi.GPIO as GPIO
 
-lr = LightRider(board, True)
+def main():
+	parser = argparse.ArgumentParser(prog="LightRider CLI")
 
-seq = Sequence(0.2, [[1,1,0,0,0,1,1,1,0,0,1,1,0],[0,1,1,1,0,0,0,1,1,0,0,1]])
-lr.addSequence(seq)
+	parser.add_argument("--debug", action="store_true", dest="debug",
+        	help="Enable debug mode")
 
-lr.run(seq)
+	parser.add_argument("-r", "--reset", action="store_true", dest="reset",
+                help="Reset GPIO at end", default=True)
 
-print "dne"
+	parser.add_argument("-p", "--POST", action="store_true", dest="post",
+		help="include Board Power On 'Self' Test")
 
+	parser.add_argument("-s", "--sequence", action="store", type=str, dest="sequence",
+		help="running Sequence")
+
+	parser.add_argument("-st", "--status", action="store_true", dest="status",
+		help="show Board status at startup")
+
+	parser.add_argument("-l", "--leds", action="store", dest="leds", type=int,
+		help="GPIO pins (Hardware pins!) to use as LEDs", nargs="*")
+
+	parser.add_argument("-b", "--buttons", action="store", dest="buttons", nargs="*", type=int,
+		help="GPIO pins (Hardware pins!) to use as Buttons (recommend pins 3 and 5)")
+
+	args = parser.parse_args()
+	
+	leds = args.leds if args.leds else Board.ALL_LIGHTS
+	buttons = args.buttons if args.buttons else Board.BUTTONS
+
+	## Board
+	board = Board(GPIO, leds, buttons, args.debug, args.reset)
+
+	## POST
+	if args.post:
+		board.POST()
+
+	## Status
+	if args.status:
+		print board.status()
+
+	lr = LightRider(board, args.debug)
+	## Sequence
+	if args.sequence:		
+		try:
+			lr = LightRider(board, args.debug)
+			sequence = factory(args.sequence)
+			lr.run(sequence)
+		except Exception, e: 		
+			print
+			print "Error :", e
+			sys.exit(2)
+
+
+# lets rock
+if __name__ == "__main__":
+        main()

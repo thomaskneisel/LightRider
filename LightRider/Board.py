@@ -1,15 +1,10 @@
-importError = False
-
 try:
+	import sys, time
 	import RPi.GPIO as GPIO
-except Exception: 
-	print "import RPi.GPIO is not available"	
-	importError = True
+except Exception, e: 
+	print e
+	sys.exit(2)
 
-if importError:
-	print "Error!"
-	sys.exit()
-		
 class Board(object):
 	# Define GPIO pins to use
 	# that are connected to 12 LEDs
@@ -26,10 +21,13 @@ class Board(object):
 	# 2 Buttons
 	BUTTONS = [3, 5]
 	
+	# button callbback bouncetimer
+	BOUNCETIME = 300
+	
 	def __init__(self, GPIO, leds=[], buttons=[], verbose=False, reset=False):
-		self._GPIO = GPIO
-		self._leds = leds
-		self._buttons = buttons
+		self._GPIO = GPIO		
+		self._leds =  self.ALL_LIGHTS if leds == [] else leds
+		self._buttons = self.BUTTONS if buttons == [] else buttons
 		self._reset = reset
 		self.__verbose = verbose
 
@@ -38,17 +36,40 @@ class Board(object):
 
 		# Use physical pin numbers references
 		self._GPIO.setmode(self._GPIO.BOARD)
-		
-		self._initLeds()
-		self._initButtons()
-		
+	
+		if self.__verbose:	
+			self.POST()
+		else:
+			self._initLeds()
+			self._initButtons()
+
+	def POST(self):
+		try:
+			self._initLeds()
+			self._initButtons()
+
+			# Test LEDs
+			for led in self._leds:
+				self.on(led)
+				time.sleep(0.5)
+				self.off(led)
+
+			#Test buttons
+			for button in self._buttons:
+				print "Press button {}".format(button)
+				self._GPIO.wait_for_edge(button, GPIO.RISING)
+				print "Button {} pressed!".format(button)
+		except Exception,e :
+			print "Error:", e
+			sys.exit(2)
+	
 	def __del__(self):
 		if (self._reset):
 			self._GPIO.cleanup()
 		
 	def _setupPins(self, pins, mode):
 		for pin in pins:
-			result = self._GPIO.setup(pin, mode)
+			result = self._GPIO.setup(pin, mode, initial=self._GPIO.LOW)
 			if self.__verbose:
 				print "Pin {} set to {}".format(pin, self._getReadableMode(mode))
 				
@@ -65,8 +86,11 @@ class Board(object):
 		self._setupPins(self._buttons, self._GPIO.IN)
 	
 	def addEventCallback(self, button, callback):
-			self._GPIO.add_event_detect(button, self._GPIO.RISING)
-			self._GPIO.add_event_callback(button, callback, bouncetime=200)
+		self._GPIO.add_event_detect(button, self._GPIO.RISING)
+		self._GPIO.add_event_callback(button, callback, bouncetime=self.BOUNCETIME)
+
+	def removeEventDetect(self, button):
+		self._GPIO.remove_event_detect(button)
 		
 	def pressedOne(self):
 		print 'pressedOne'
