@@ -9,25 +9,29 @@ class LightRider(object):
 		self._speed = 0.0001
 		self.__verbose = verbose
 		self._sequence = None
+		self._break = False
 
 	def run(self, sequence):
 		self._sequence = sequence
+		self._break = False
 		#activate Button callback         
-                self._board.addEventCallback(self.BUTTON_ONE, self._breakSequence)
+		self._board.addEventCallback(self.BUTTON_ONE, self._breakSequence)
+
 		n = 0
 		while n < sequence.repeat or True == sequence.repeat:
 			for row in sequence.getRows():
-				self._row = row
+				if self._break: break
 				map(self.led, self._board.CHASER_LIGHTS, row.values)
 				time.sleep(row.speed)
 			n +=1
 	
 	def _breakSequence(self, pin):
 		if None == self._sequence or 0 == self._sequence.repeat:
-			return None	
+			return None
 		self._sequence.repeat = 0
 		self._sequence = None
 		self._board.removeEventDetect(pin)
+		self._break = True
 		
 	def led(self, pin, value=1, speed=0.0001):
 		if speed <= 0:
