@@ -16,7 +16,8 @@ How it works
 * * * Buttons
 
 ### Breadboard Layout
-[Breadboard Layout](https://github.com/thomaskneisel/LightRider/blob/master/docs/images/Light%20Rider_Steckplatine.png)
+[Breadboard Layout](https://raw2.github.com/thomaskneisel/LightRider/blob/master/docs/images/Light%20Rider_Steckplatine.png)
+![Breadboard Layout](https://raw2.github.com/thomaskneisel/LightRider/blob/master/docs/images/Light%20Rider_Steckplatine.png)
 ### Circuit diagram
 [Circuit diagram](https://github.com/thomaskneisel/LightRider/blob/master/docs/images/LightRider_Schaltplan.png)
 
