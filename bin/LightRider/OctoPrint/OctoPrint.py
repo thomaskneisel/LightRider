@@ -40,6 +40,7 @@ class OctoPrint(object):
 				pin = led[0]
 				value = led[1]
 				self._lightRider.led(pin, value)
+
 		# sequence handling
                 if eventSequence.sequence:
                         if self._debug:

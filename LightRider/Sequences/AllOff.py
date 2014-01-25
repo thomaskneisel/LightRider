@@ -7,6 +7,6 @@ class AllOff(Sequence):
 			self, [
 				Row(speed, [0,0,0,0,0,0,0,0,0,0,0,0]),
 			],
-			9999
+			1
 		)
 
