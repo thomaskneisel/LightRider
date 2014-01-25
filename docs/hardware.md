@@ -15,10 +15,14 @@ How it works
 * * * Link
 * * * Buttons
 
-# image
-# image
-# image
+### Breadboard Layout
+[Breadboard Layout](https://github.com/thomaskneisel/LightRider/blob/master/docs/images/Light%20Rider_Steckplatine.png)
+### Circuit diagram
+[Circuit diagram](https://github.com/thomaskneisel/LightRider/blob/master/docs/images/LightRider_Schaltplan.png)
 
-# Hardware List
+### Circuit diagram without Raspbery Pi
+[Circuit diagram](https://github.com/thomaskneisel/LightRider/blob/master/docs/images/Light Rider_RPi_free_Schaltplan.png)
+
+## Hardware List
 
 * comming soon ... see images so long
