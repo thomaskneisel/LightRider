@@ -1,8 +1,7 @@
 from Event import Event
 from LightRider.Sequences import Blinker
 
-class Disconnected(Event):
+class PrintCancelled(Event):
 	def _initInstance(self):
-		self.leds = [[23, 0], [24, 1]]
+		self.leds = [[24,1], [23,1], [26,0]]
 		self.sequence = Blinker()
-

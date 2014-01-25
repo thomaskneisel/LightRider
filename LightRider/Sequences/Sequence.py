@@ -33,12 +33,12 @@ class Sequence(object):
 		print "Sequence"
 		map(self._showRow, self.rows)
 		
-	def _showRow(self, row):		
+	def _showRow(self, row):
 		for value in row.values:
 			if 0 == value:
 				print " ",
 			else:
 				print "*",
-				time.sleep(row.speed)
-			print
+		print
+		time.sleep(row.speed)
 

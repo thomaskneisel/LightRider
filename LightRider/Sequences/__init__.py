@@ -4,3 +4,8 @@ from Welcome import Welcome
 from Kitt import Kitt
 from Clock import Clock
 from Circle import Circle
+from Blinker import Blinker
+from AllOn import AllOn
+from AllOff import AllOff
+from Christmas import Christmas
+from Orbit import Orbit

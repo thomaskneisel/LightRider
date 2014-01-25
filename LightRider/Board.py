@@ -22,9 +22,9 @@ class Board(object):
 	BUTTONS = [3, 5]
 	
 	# button callbback bouncetimer
-	BOUNCETIME = 300
+	BOUNCETIME = 500
 	
-	def __init__(self, GPIO, leds=[], buttons=[], verbose=False, reset=False):
+	def __init__(self, GPIO, leds=[], buttons=[], verbose=False, reset=False, initPins=True):
 		self._GPIO = GPIO		
 		self._leds =  self.ALL_LIGHTS if leds == [] else leds
 		self._buttons = self.BUTTONS if buttons == [] else buttons
@@ -37,9 +37,7 @@ class Board(object):
 		# Use physical pin numbers references
 		self._GPIO.setmode(self._GPIO.BOARD)
 	
-		if self.__verbose:	
-			self.POST()
-		else:
+		if initPins:
 			self._initLeds()
 			self._initButtons()
 
@@ -64,7 +62,7 @@ class Board(object):
 			sys.exit(2)
 	
 	def __del__(self):
-		if (self._reset):
+		if self._reset:
 			self._GPIO.cleanup()
 		
 	def _setupPins(self, pins, mode):

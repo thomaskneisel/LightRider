@@ -18,10 +18,11 @@ class OctoPrint(object):
 	def __init__(self, debug=True):
 		self._debug = debug
 		self._resetGPIO = False
+		self._initPins = True  ## you have to setup pins before!
 		self._lightRider = LightRider(self._getBoard(), self._debug)
 
 	def _getBoard(self):
-		return Board(GPIO, Board.ALL_LIGHTS, Board.BUTTONS, self._debug, self._resetGPIO)
+		return Board(GPIO, Board.ALL_LIGHTS, Board.BUTTONS, verbose=self._debug, reset=self._resetGPIO, initPins=self._initPins)
 
 	def event(self, event):
 		event.name = event.event[0]
@@ -31,12 +32,6 @@ class OctoPrint(object):
 			print "\n[{}]Event: \n {} \n".format(__name__, event)
 			print "\n[{}]EventSequence: \n {} \n {} \n".format(__name__, eventSequence, eventSequence.sequence)
 
-		# sequence handling
-		if eventSequence.sequence:
-	                if self._debug:
-                		print "\n[{}]EventSequence: \n {} \n {} \n".format(__name__, eventSequence, eventSequence.sequence)
-			self._lightRider.run(eventSequence.sequence)
-
 		# single led handling
 		if eventSequence.leds:
 	                if self._debug:
@@ -45,6 +40,11 @@ class OctoPrint(object):
 				pin = led[0]
 				value = led[1]
 				self._lightRider.led(pin, value)
+		# sequence handling
+                if eventSequence.sequence:
+                        if self._debug:
+                                print "\n[{}]EventSequence: \n {} \n {} \n".format(__name__, eventSequence, eventSequence.sequence)
+                        self._lightRider.run(eventSequence.sequence)
 			
 	def eventFactory(self, event, args=[]):
 		try:

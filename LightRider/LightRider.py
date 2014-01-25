@@ -1,4 +1,4 @@
-import time
+import time, sys
 
 class LightRider(object):
 	BUTTON_ONE = 3
@@ -10,28 +10,42 @@ class LightRider(object):
 		self.__verbose = verbose
 		self._sequence = None
 		self._break = False
+		self._pressed = 0
 
 	def run(self, sequence):
 		self._sequence = sequence
 		self._break = False
+
 		#activate Button callback         
 		self._board.addEventCallback(self.BUTTON_ONE, self._breakSequence)
+                self._board.addEventCallback(self.BUTTON_TWO, self._breakSequence)
 
 		n = 0
-		while n < sequence.repeat or True == sequence.repeat:
+		while n < sequence.repeat or -1 == sequence.repeat:			
 			for row in sequence.getRows():
 				if self._break: break
 				map(self.led, self._board.CHASER_LIGHTS, row.values)
 				time.sleep(row.speed)
 			n +=1
+
+		self._board.removeEventDetect(self.BUTTON_ONE)
+		self._board.removeEventDetect(self.BUTTON_TWO)	
 	
 	def _breakSequence(self, pin):
-		if None == self._sequence or 0 == self._sequence.repeat:
+		if 0 != self._pressed and pin != self._pressed:
+			print "Both Buttons pressed, exit."
+			sys.exit(2)
+
+		self._pressed = pin
+		if None == self._sequence:
+			self._pressed = 0
 			return None
-		self._sequence.repeat = 0
-		self._sequence = None
-		self._board.removeEventDetect(pin)
-		self._break = True
+
+		self._sequence.repeat = 0		
+		if pin == self.BUTTON_TWO:
+			self._break = True
+
+		self._pressed = 0
 		
 	def led(self, pin, value=1, speed=0.0001):
 		if speed <= 0:

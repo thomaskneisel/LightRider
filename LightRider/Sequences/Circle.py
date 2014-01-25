@@ -2,7 +2,7 @@ from Sequence import Sequence
 from Row import Row
 
 class Circle(Sequence):
-	def __init__(self, speed=0.043):
+	def __init__(self, speed=0.03):
 		Sequence.__init__(
 			self, [
 				Row(speed, [1,0,0,0,0,0,0,0,0,0,0,0]),
@@ -17,5 +17,6 @@ class Circle(Sequence):
 				Row(speed, [0,0,0,0,0,0,0,0,0,1,0,0]),
 				Row(speed, [0,0,0,0,0,0,0,0,0,0,1,0]),
 				Row(speed, [0,0,0,0,0,0,0,0,0,0,0,1]),
-			]
+			],
+			12
 		)
