@@ -7,6 +7,8 @@ Standalone runner with buttoncontrolled demo mode and developing sequences.
 
 Hardware [layouts](docs/hardware.md) included 
 
+Thingiverse Project: [http://www.thingiverse.com/thing:234608]
+
 ## The Project
 
 i did a Remix of http://www.thingiverse.com/thing:155262 , but i what more lights, use my M3 screws for mounting the ring 
